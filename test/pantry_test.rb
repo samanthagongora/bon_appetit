@@ -64,4 +64,39 @@ class PantryTest < Minitest::Test
 
     assert_equal expected, actual
   end
+
+  def test_it_can_have_empty_shopping_list
+    pantry = Pantry.new
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 20)
+    r.add_ingredient("Flour", 20)
+
+    actual = pantry.shopping_list
+    expected = {}
+
+    assert_equal expected, actual
+  end
+
+# pantry.add_to_shopping_list(r)
+#
+# # Checking the shopping list
+# pantry.shopping_list # => {"Cheese" => 20, "Flour" => 20}
+#
+# # Adding another recipe
+# r = Recipe.new("Spaghetti")
+# r.add_ingredient("Noodles", 10)
+# r.add_ingredient("Sauce", 10)
+# r.add_ingredient("Cheese", 5)
+# pantry.add_to_shopping_list(r)
+#
+# # Checking the shopping list
+# pantry.shopping_list # => {"Cheese" => 25, "Flour" => 20, "Noodles" => 10, "Sauce" => 10}
+#
+# # Printing the shopping list
+# pantry.print_shopping_list
+# # * Cheese: 25
+# # * Flour: 20
+# # * Noodles: 10
+# # * Sauce: 10
+# # => "* Cheese: 20\n* Flour: 20\n* Spaghetti Noodles: 10\n* Marinara Sauce: 10"
 end

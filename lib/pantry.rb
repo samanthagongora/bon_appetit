@@ -2,9 +2,11 @@ require 'pry'
 require './lib/recipe'
 
 class Pantry
-  attr_reader :stock
+  attr_reader :stock,
+              :shopping_list
   def initialize
     @stock = {}
+    @shopping_list = {}
   end
 
   def stock_check(item)

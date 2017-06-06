@@ -20,19 +20,21 @@ class Pantry
   end
 
   def convert_units(recipe)
-    ingredients = recipe.ingredients
-    ingredients.map do |i, q|
+    recipe.ingredients.map do |i, q|
       if q < 2
-        ingredients[i] = mixed_milli_units(q) if q > 1
-        ingredients[i] = milli_units(q) if q < 1
+        ingredients[i] = convert_milli_units(q)
       elsif q > 100
-        ingredients[i] = mixed_centi_units(q) if q % 100 != 0
-        ingredients[i] = centi_units(q) if q % 100 == 0
+        ingredients[i] = convert_centi_units(q)
       else
-        ingredients[i] = [{ quantity: q, units: 'Universal Units' }]
+        ingredients[i] = return_universal_units(q)
       end
     end
     ingredients
+  end
+
+  def convert_milli_units(q)
+    return mixed_milli_units(q) if q > 1
+    milli_units(q)
   end
 
   def mixed_milli_units(q)
@@ -46,6 +48,11 @@ class Pantry
     [{ quantity: (q * 1000).round, units: 'Milli-Units' }]
   end
 
+  def convert_centi_units(q)
+    return mixed_centi_units(q) if q % 100 != 0
+    centi_units(q)
+  end
+
   def mixed_centi_units(q)
     remainder = q % 100
     quotient = q - remainder
@@ -55,6 +62,10 @@ class Pantry
 
   def centi_units(q)
     [{ quantity: (q / 100), units: 'Centi-Units' }]
+  end
+
+  def return_universal_units(q)
+    [{ quantity: q, units: 'Universal Units' }]
   end
 
   def add_to_shopping_list(recipe)

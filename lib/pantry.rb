@@ -21,8 +21,8 @@ class Pantry
   end
 
   def convert_units(recipe)
-    recipe.ingredients.map do |i, quantity|
-      recipe.ingredients[i] = if quantity < 2
+    recipe.ingredients.map do |item, quantity|
+      recipe.ingredients[item] = if quantity < 2
                                 convert_milli_units(quantity)
                               elsif quantity > 100
                                 convert_centi_units(quantity)

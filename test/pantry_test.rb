@@ -59,9 +59,9 @@ class PantryTest < Minitest::Test
 
     actual = pantry.convert_units(r)
     expected =
-      { 'Cayenne Pepper' => { quantity: 25, units: 'Milli-Units' },
-        'Cheese'         => { quantity: 75, units: 'Universal Units' },
-        'Flour'          => { quantity: 5, units: 'Centi-Units' } }
+      { 'Cayenne Pepper' => [{ quantity: 25, units: 'Milli-Units' }],
+        'Cheese'         => [{ quantity: 75, units: 'Universal Units' }],
+        'Flour'          => [{ quantity: 5, units: 'Centi-Units' }] }
 
     assert_equal expected, actual
   end

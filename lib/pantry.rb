@@ -4,6 +4,7 @@ require './lib/recipe'
 class Pantry
   attr_reader :stock,
               :shopping_list
+
   def initialize
     @stock = {}
     @shopping_list = {}
@@ -21,15 +22,15 @@ class Pantry
 
   def convert_units(recipe)
     recipe.ingredients.map do |i, q|
-      if q < 2
-        ingredients[i] = convert_milli_units(q)
-      elsif q > 100
-        ingredients[i] = convert_centi_units(q)
-      else
-        ingredients[i] = return_universal_units(q)
-      end
+      recipe.ingredients[i] = if q < 2
+                         convert_milli_units(q)
+                       elsif q > 100
+                         convert_centi_units(q)
+                       else
+                         return_universal_units(q)
+                       end
     end
-    ingredients
+    recipe.ingredients
   end
 
   def convert_milli_units(q)
@@ -70,7 +71,6 @@ class Pantry
 
   def add_to_shopping_list(recipe)
     ingredients = recipe.ingredients
-
     ingredients.map do |i, q|
       @shopping_list[i] = 0 if @shopping_list[i].nil?
       @shopping_list[i] += q

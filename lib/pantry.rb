@@ -26,15 +26,31 @@ class Pantry
     ingredients = recipe.ingredients
     converted_units = {}
     ingredients.each do |i, q|
-      if q < 1
-        converted_units[i] = { quantity: (q * 1000), units: 'Milli-Units' }
+      if q % 1 != 0
+        converted_units[i] = mixed_mili_units(q)
       elsif q > 100
-        converted_units[i] = { quantity: (q / 100), units: 'Centi-Units' }
+        converted_units[i] = mixed_centi_units(q) if q % 100 != 0
+        binding.pry
+        converted_units[i] = [{ quantity: (q / 100), units: 'Centi-Units' }]
       else
-        converted_units[i] = { quantity: q, units: 'Universal Units' }
+        converted_units[i] = [{ quantity: q, units: 'Universal Units' }]
       end
     end
     converted_units
+  end
+
+  def mixed_mili_units(q)
+    remainder = q % 1
+    quotient = q - remainder
+     [{ quantity: (remainder * 1000).round, units: 'Milli-Units' },
+     { quantity: quotient.round, units: 'Universal Units' }]
+  end
+
+  def mixed_centi_units(q)
+    remainder = q % 100
+    quotient = q - remainder
+    [{ quantity: (quotient/100), units: 'Centi-Units' },
+     { quantity: remainder, units: 'Universal Units' }]
   end
 
   def add_to_shopping_list(recipe)
@@ -50,7 +66,7 @@ class Pantry
   end
 
   def print_shopping_list
-    human_readable = ""
+    human_readable = ''
     items = @shopping_list.keys
     items.each_with_index do |item, idx|
       if items[idx + 1].nil?

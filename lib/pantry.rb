@@ -23,12 +23,12 @@ class Pantry
   def convert_units(recipe)
     recipe.ingredients.map do |i, q|
       recipe.ingredients[i] = if q < 2
-                         convert_milli_units(q)
-                       elsif q > 100
-                         convert_centi_units(q)
-                       else
-                         return_universal_units(q)
-                       end
+                                convert_milli_units(q)
+                              elsif q > 100
+                                convert_centi_units(q)
+                              else
+                                return_universal_units(q)
+                              end
     end
     recipe.ingredients
   end
@@ -78,15 +78,14 @@ class Pantry
   end
 
   def print_shopping_list
-    human_readable = ''
     items = @shopping_list.keys
-    items.each_with_index do |item, idx|
-      if items[idx + 1].nil?
-        human_readable << "* #{item}: #{@shopping_list[item]}"
-      else
-        human_readable << "* #{item}: #{@shopping_list[item]}\n"
-      end
+    collection = items.map.with_index do |item, idx|
+      item = if items[idx + 1].nil?
+               "* #{item}: #{@shopping_list[item]}"
+             else
+               "* #{item}: #{@shopping_list[item]}\n"
+             end
     end
-    human_readable
+    collection.join('')
   end
 end

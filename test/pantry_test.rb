@@ -25,12 +25,26 @@ class PantryTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_restock_can_stock_items
+  def test_restock_can_stock_item
     new_pantry = Pantry.new
     new_pantry.restock("Cheese", 10)
     actual = new_pantry.stock_check("Cheese")
     expected = 10
 
     assert_equal expected, actual
+  end
+
+  def test_restock_can_stock_more_items
+    new_pantry = Pantry.new
+    new_pantry.restock("Cheese", 10)
+    actual_1 = new_pantry.stock_check("Cheese")
+    expected_1 = 10
+
+    new_pantry.restock("Cheese", 20)
+    actual_2 = new_pantry.stock_check("Cheese")
+    expected_2 = 30
+
+    assert_equal expected_1, actual_1
+    assert_equal expected_2, actual_2
   end
 end

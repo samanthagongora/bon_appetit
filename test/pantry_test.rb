@@ -67,18 +67,18 @@ class PantryTest < Minitest::Test
   end
 
   def test_pantry_can_covert_mixed_units
-    r = Recipe.new("Spicy Cheese Pizza")
-    r.add_ingredient("Cayenne Pepper", 1.025)
-    r.add_ingredient("Cheese", 75)
-    r.add_ingredient("Flour", 550)
+    r = Recipe.new('Spicy Cheese Pizza')
+    r.add_ingredient('Cayenne Pepper', 1.025)
+    r.add_ingredient('Cheese', 75)
+    r.add_ingredient('Flour', 550)
     pantry = Pantry.new
 
     actual = pantry.convert_units(r)
-    expected = {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
-                                     {quantity: 1, units: "Universal Units"}],
-                "Cheese"         => [{quantity: 75, units: "Universal Units"}],
-                "Flour"          => [{quantity: 5, units: "Centi-Units"},
-                                     {quantity: 50, units: "Universal Units"}]}
+    expected = { 'Cayenne Pepper' => [{ quantity: 25, units: 'Milli-Units' },
+                                      { quantity: 1, units: 'Universal Units' }],
+                 'Cheese'         => [{ quantity: 75, units: 'Universal Units' }],
+                 'Flour'          => [{ quantity: 5, units: 'Centi-Units' },
+                                      { quantity: 50, units: 'Universal Units' }] }
     assert_equal expected, actual
   end
 

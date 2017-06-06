@@ -15,34 +15,30 @@ class Pantry
   end
 
   def restock(item, quantity)
-    if @stock[item].nil?
-      @stock[item] = quantity
-    else
-      @stock[item] += quantity
-    end
+    return @stock[item] = quantity if @stock[item].nil?
+    @stock[item] += quantity
   end
 
   def convert_units(recipe)
     ingredients = recipe.ingredients
-    converted_units = {}
-    ingredients.each do |i, q|
+    ingredients.map do |i, q|
       if q < 2
-        converted_units[i] = mixed_milli_units(q) if q > 1
-        converted_units[i] = milli_units(q) if q < 1
+        ingredients[i] = mixed_milli_units(q) if q > 1
+        ingredients[i] = milli_units(q) if q < 1
       elsif q > 100
-        converted_units[i] = mixed_centi_units(q) if q % 100 != 0
-        converted_units[i] = centi_units(q) if q % 100 == 0 
+        ingredients[i] = mixed_centi_units(q) if q % 100 != 0
+        ingredients[i] = centi_units(q) if q % 100 == 0
       else
-        converted_units[i] = [{ quantity: q, units: 'Universal Units' }]
+        ingredients[i] = [{ quantity: q, units: 'Universal Units' }]
       end
     end
-    converted_units
+    ingredients
   end
 
   def mixed_milli_units(q)
     remainder = q % 1
     quotient = q - remainder
-     [{ quantity: (remainder * 1000).round, units: 'Milli-Units' },
+    [{ quantity: (remainder * 1000).round, units: 'Milli-Units' },
      { quantity: quotient.round, units: 'Universal Units' }]
   end
 
@@ -53,7 +49,7 @@ class Pantry
   def mixed_centi_units(q)
     remainder = q % 100
     quotient = q - remainder
-    [{ quantity: (quotient/100), units: 'Centi-Units' },
+    [{ quantity: (quotient / 100), units: 'Centi-Units' },
      { quantity: remainder, units: 'Universal Units' }]
   end
 

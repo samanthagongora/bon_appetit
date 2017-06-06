@@ -1,6 +1,7 @@
 require './lib/pantry'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'pry'
 
 class PantryTest < Minitest::Test
   def test_it_exists
@@ -85,21 +86,33 @@ class PantryTest < Minitest::Test
     pantry.add_to_shopping_list(r)
 
     actual = pantry.shopping_list
-    expected = {"Cheese" => 20, "Flour" => 20}
+    expected = {"Cheese" => 20,
+                "Flour" => 20}
 
     assert_equal expected, actual
   end
 
-# # Adding another recipe
-# r = Recipe.new("Spaghetti")
-# r.add_ingredient("Noodles", 10)
-# r.add_ingredient("Sauce", 10)
-# r.add_ingredient("Cheese", 5)
-# pantry.add_to_shopping_list(r)
-#
-# # Checking the shopping list
-# pantry.shopping_list # => {"Cheese" => 25, "Flour" => 20, "Noodles" => 10, "Sauce" => 10}
-#
+  def test_pantry_can_add_more_items_to_shopping_list
+    pantry = Pantry.new
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 20)
+    r.add_ingredient("Flour", 20)
+    pantry.add_to_shopping_list(r)
+
+    r_2 = Recipe.new("Spaghetti")
+    r_2.add_ingredient("Noodles", 10)
+    r_2.add_ingredient("Sauce", 10)
+    r_2.add_ingredient("Cheese", 5)
+    pantry.add_to_shopping_list(r_2)
+
+    actual = pantry.shopping_list
+    expected = {"Cheese" => 25,
+                "Flour" => 20,
+                "Noodles"=>10,
+                "Sauce"=>10}
+
+    assert_equal expected, actual
+  end
 # # Printing the shopping list
 # pantry.print_shopping_list
 # # * Cheese: 25

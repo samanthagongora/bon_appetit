@@ -21,59 +21,59 @@ class Pantry
   end
 
   def convert_units(recipe)
-    recipe.ingredients.map do |i, q|
-      recipe.ingredients[i] = if q < 2
-                                convert_milli_units(q)
-                              elsif q > 100
-                                convert_centi_units(q)
+    recipe.ingredients.map do |i, quantity|
+      recipe.ingredients[i] = if quantity < 2
+                                convert_milli_units(quantity)
+                              elsif quantity > 100
+                                convert_centi_units(quantity)
                               else
-                                return_universal_units(q)
+                                return_universal_units(quantity)
                               end
     end
     recipe.ingredients
   end
 
-  def convert_milli_units(q)
-    return mixed_milli_units(q) if q > 1
-    milli_units(q)
+  def convert_milli_units(quantity)
+    return mixed_milli_units(quantity) if quantity > 1
+    milli_units(quantity)
   end
 
-  def mixed_milli_units(q)
-    remainder = q % 1
-    quotient = q - remainder
+  def mixed_milli_units(quantity)
+    remainder = quantity % 1
+    quotient = quantity - remainder
     [{ quantity: (remainder * 1000).round, units: 'Milli-Units' },
      { quantity: quotient.round, units: 'Universal Units' }]
   end
 
-  def milli_units(q)
-    [{ quantity: (q * 1000).round, units: 'Milli-Units' }]
+  def milli_units(quantity)
+    [{ quantity: (quantity * 1000).round, units: 'Milli-Units' }]
   end
 
-  def convert_centi_units(q)
-    return mixed_centi_units(q) if q % 100 != 0
-    centi_units(q)
+  def convert_centi_units(quantity)
+    return mixed_centi_units(quantity) if quantity % 100 != 0
+    centi_units(quantity)
   end
 
-  def mixed_centi_units(q)
-    remainder = q % 100
-    quotient = q - remainder
+  def mixed_centi_units(quantity)
+    remainder = quantity % 100
+    quotient = quantity - remainder
     [{ quantity: (quotient / 100), units: 'Centi-Units' },
      { quantity: remainder, units: 'Universal Units' }]
   end
 
-  def centi_units(q)
-    [{ quantity: (q / 100), units: 'Centi-Units' }]
+  def centi_units(quantity)
+    [{ quantity: (quantity / 100), units: 'Centi-Units' }]
   end
 
-  def return_universal_units(q)
-    [{ quantity: q, units: 'Universal Units' }]
+  def return_universal_units(quantity)
+    [{ quantity: quantity, units: 'Universal Units' }]
   end
 
   def add_to_shopping_list(recipe)
     ingredients = recipe.ingredients
-    ingredients.map do |i, q|
-      @shopping_list[i] = 0 if @shopping_list[i].nil?
-      @shopping_list[i] += q
+    ingredients.map do |item, quantity|
+      @shopping_list[item] = 0 if @shopping_list[item].nil?
+      @shopping_list[item] += quantity
     end
   end
 

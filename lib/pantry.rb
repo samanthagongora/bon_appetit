@@ -60,12 +60,9 @@ class Pantry
   def add_to_shopping_list(recipe)
     ingredients = recipe.ingredients
 
-    ingredients.each do |i, q|
-      if @shopping_list[i].nil?
-        @shopping_list[i] = q
-      else
-        @shopping_list[i] += q
-      end
+    ingredients.map do |i, q|
+      @shopping_list[i] = 0 if @shopping_list[i].nil?
+      @shopping_list[i] += q
     end
   end
 
